@@ -40,7 +40,7 @@ section {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-image: url("/background-1.png");
+  background-image: url("./background-1.png");
   background-size: cover;
   background-repeat: no-repeat;
   transition: all 0.3s linear;

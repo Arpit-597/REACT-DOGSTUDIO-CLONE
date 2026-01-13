@@ -11,9 +11,7 @@ const Dog = () => {
     gsap.registerPlugin(useGSAP);
     gsap.registerPlugin(ScrollTrigger);
     // model component mai aaya h
-    const model = useGLTF("/models/dog.drc.glb");
-
-    const { scene } = useThree();
+    const model = useGLTF("./models/dog.drc.glb");
 
     useThree(({ camera, scene, gl }) => {
         camera.position.z = 0.55;
@@ -40,9 +38,9 @@ const Dog = () => {
 
     // Here the previous redundant work is reduced and this is clean code and same as above only
     const [normalMap, diffuseMap, specularMap] = useTexture([
-        "/dog_normals.jpg",
-        "/dog_diffuse.jpg",
-        "/dog_specular.jpg"
+        "./dog_normals.jpg",
+        "./dog_diffuse.jpg",
+        "./dog_specular.jpg"
     ])
 
     normalMap.flipY = false
@@ -54,8 +52,8 @@ const Dog = () => {
     specularMap.colorSpace = THREE.NoColorSpace
 
     const [branchdiffuseMap, branchNormalMap] = useTexture([
-        "/branches_diffuse.jpeg",
-        "/branches_normals.jpeg"
+        "./branches_diffuse.jpeg",
+        "./branches_normals.jpeg"
     ])
 
     branchdiffuseMap.colorSpace = THREE.SRGBColorSpace
@@ -107,7 +105,7 @@ const Dog = () => {
         normalScale: new THREE.Vector2(10, 10)
     })
 
-    const eyematcap = useTexture("/matcap/mat-1.png")
+    const eyematcap = useTexture("./matcap/mat-1.png")
     eyematcap.colorSpace = THREE.SRGBColorSpace
 
     const eyeMaterial = new THREE.MeshMatcapMaterial({
@@ -316,20 +314,14 @@ const Dog = () => {
         })
     }, [])
 
-    // 1. Soft overall light so nothing is pitch black
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-
-    // 2. The main light (lower the intensity if the dog is too white)
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(5, 5, 5);
-    scene.add(directionalLight);
-
     return (
         <>
             <primitive object={model.scene} position={[0.19, -0.625, 0.17]} rotation={[0, Math.PI / 3.97, 0]} />
             <directionalLight position={[0, 5, 5]} color={0xffffff} intensity={10} />
             {/* <OrbitControls/> */}
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[5, 5, 5]} intensity={0.8} />
+
         </>
     );
 };

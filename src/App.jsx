@@ -34,7 +34,7 @@ function App() {
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundImage: 'url(/background-2.png)',
+          backgroundImage: 'url(./background-2.png)',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           zIndex: -1,
@@ -43,13 +43,13 @@ function App() {
       />
       <main>
         <div className="images">
-          <img id='tomorrowland' src="/tomorrowland.png" alt="" />
-          <img id='navy-pier' src="/navy-pier.png" alt="" />
-          <img id='msi-chicago' src="/msi-chicago.png" alt="" />
-          <img id='phone' src="/phone.png" alt="" />
-          <img id='kikk' src="/kikk.png" alt="" />
-          <img id='kennedy' src="/kennedy.png" alt="" />
-          <img id='opera' src="/opera.png" alt="" />
+          <img id='tomorrowland' src="./tomorrowland.png" alt="" />
+          <img id='navy-pier' src="./navy-pier.png" alt="" />
+          <img id='msi-chicago' src="./msi-chicago.png" alt="" />
+          <img id='phone' src="./phone.png" alt="" />
+          <img id='kikk' src="./kikk.png" alt="" />
+          <img id='kennedy' src="./kennedy.png" alt="" />
+          <img id='opera' src="./opera.png" alt="" />
         </div>
         <Canvas id='canvas-elem' style={{
           height: "100%",
