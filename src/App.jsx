@@ -1,10 +1,13 @@
 import { Canvas } from '@react-three/fiber'
 import './App.css'
 import Dog from './components/Dog'
+import Loader from './components/Loader'
 import * as THREE from 'three'
 import { useState, useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import ScrambleTextLoader from './components/ScrambleTextLoader'
+
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -58,6 +61,7 @@ function App() {
 
           <Dog />
         </Canvas>
+        <ScrambleTextLoader />
         <section id='section-1'>
           <nav>
             <div className="nav-elem">
