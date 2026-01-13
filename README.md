@@ -4,7 +4,7 @@ A practice project cloning the stunning Dog Studio homepage, featuring immersive
 
 **⚠️ This is a learning project - not affiliated with Dog Studio**
 
-![Dog Studio Clone Preview](https://via.placeholder.com/800x400/1a1a1a/ffffff?text=Dog+Studio+Clone+Preview)
+![Dog Studio Clone Preview](https://react-dogstudio-clone.onrender.com/)
 
 ## 📋 Project Status
 
