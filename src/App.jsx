@@ -212,7 +212,6 @@ function App() {
 
           </div>
           <div className="bottom">
-            <hr />
           </div>
         </div>
       </main>
