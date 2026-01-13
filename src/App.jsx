@@ -26,22 +26,11 @@ function App() {
 
   return (
     <>
-      <div
-        ref={backgroundRef}
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundImage: 'url(./background-2.png)',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          zIndex: -1,
-          opacity: 1
-        }}
-      />
-      <main>
+      <main style={{
+        backgroundImage: 'url(./background2.png)',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+      }}>
         <div className="images">
           <img id='tomorrowland' src="./tomorrowland.png" alt="" />
           <img id='navy-pier' src="./navy-pier.png" alt="" />
