@@ -3,34 +3,56 @@ import { useProgress } from '@react-three/drei';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
+const loadingTexts = [
+    "Initializing",
+    "Loading Assets",
+    "Fetching Dog Model",
+    "Processing Textures",
+    "Warming GPU",
+    "Almost Ready"
+];
+
 const ScrambleTextLoader = () => {
     const { progress } = useProgress();
     const loaderRef = useRef(null);
     const textRef = useRef(null);
-    const [currentText, setCurrentText] = useState("Loading");
+    const [currentText, setCurrentText] = useState("Initializing");
 
-    const texts = ["Loading", "Fetching Model", "Warming GPU", "Almost There"];
+    const texts = loadingTexts;
+
+    useEffect(() => {
+        let textIndex = 0;
+        const interval = setInterval(() => {
+            textIndex = (textIndex + 1) % texts.length;
+            setCurrentText(texts[textIndex]);
+        }, 1200); // Change text every 1.2 seconds
+
+        return () => clearInterval(interval);
+    }, []);
 
     useGSAP(() => {
-        // Create a timeline for text scrambling effect
-        const tl = gsap.timeline({ repeat: -1 });
-
-        texts.forEach((text, index) => {
-            tl.to({}, {
-                duration: 1.5,
-                onComplete: () => setCurrentText(text)
-            });
+        // Add a subtle pulse effect to the progress text
+        gsap.to(textRef.current, {
+            scale: 1.02,
+            repeat: -1,
+            yoyo: true,
+            ease: "power2.inOut",
+            duration: 2
         });
     }, []);
 
     useEffect(() => {
         if (progress === 100) {
+            // Fade out loader smoothly with a slight delay
             gsap.to(loaderRef.current, {
                 opacity: 0,
-                duration: 0.8,
+                duration: 1.2,
                 ease: "power2.out",
+                delay: 0.5,
                 onComplete: () => {
+                    // Enable scroll after loading
                     document.body.style.overflow = "auto";
+                    // Hide loader completely
                     if (loaderRef.current) {
                         loaderRef.current.style.display = "none";
                     }
@@ -46,6 +68,9 @@ const ScrambleTextLoader = () => {
         };
     }, []);
 
+    // Determine display text based on progress
+    const displayText = progress === 100 ? "Complete!" : currentText;
+
     return (
         <div
             ref={loaderRef}
@@ -55,66 +80,73 @@ const ScrambleTextLoader = () => {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
+                background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
                 zIndex: 9999,
-                transition: 'opacity 0.8s ease-out'
+                transition: 'opacity 1.2s ease-out'
             }}
         >
-            {/* Animated dots */}
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '2rem' }}>
-                {[0, 1, 2].map((i) => (
+            {/* Animated dots with staggered animation */}
+            <div style={{ display: 'flex', gap: '12px', marginBottom: '3rem' }}>
+                {[0, 1, 2, 3].map((i) => (
                     <div
                         key={i}
                         style={{
-                            width: '8px',
-                            height: '8px',
+                            width: '6px',
+                            height: '6px',
                             background: '#ffffff',
                             borderRadius: '50%',
-                            animation: `bounce 1.4s ease-in-out ${i * 0.16}s infinite both`
+                            animation: `bounce 1.4s ease-in-out ${i * 0.1}s infinite both`
                         }}
                     />
                 ))}
             </div>
 
-            {/* Scrambling text */}
+            {/* Dynamic text with fade effect */}
             <div
                 ref={textRef}
                 style={{
-                    fontSize: '24px',
-                    fontWeight: '500',
+                    fontSize: '28px',
+                    fontWeight: '400',
                     color: '#ffffff',
-                    marginBottom: '1rem',
+                    marginBottom: '1.5rem',
                     fontFamily: 'Arial, sans-serif',
-                    letterSpacing: '1px'
+                    letterSpacing: '1px',
+                    textAlign: 'center',
+                    minHeight: '40px',
+                    display: 'flex',
+                    alignItems: 'center'
                 }}
             >
-                {currentText}
+                {displayText}
             </div>
 
-            {/* Progress percentage */}
+            {/* Progress percentage with enhanced styling */}
             <div
                 style={{
-                    fontSize: '16px',
-                    color: 'rgba(255, 255, 255, 0.7)',
+                    fontSize: '48px',
+                    fontWeight: '300',
+                    color: '#ffffff',
                     marginBottom: '2rem',
-                    fontFamily: 'Arial, sans-serif'
+                    fontFamily: 'Arial, sans-serif',
+                    letterSpacing: '2px'
                 }}
             >
                 {Math.round(progress)}%
             </div>
 
-            {/* Progress bar */}
+            {/* Enhanced progress bar */}
             <div
                 style={{
-                    width: '250px',
-                    height: '3px',
+                    width: '280px',
+                    height: '4px',
                     background: 'rgba(255, 255, 255, 0.1)',
                     borderRadius: '2px',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    position: 'relative'
                 }}
             >
                 <div
@@ -122,19 +154,58 @@ const ScrambleTextLoader = () => {
                         height: '100%',
                         background: 'linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.8) 100%)',
                         width: `${progress}%`,
-                        transition: 'width 0.3s ease-out',
-                        boxShadow: '0 0 10px rgba(255,255,255,0.3)'
+                        transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                        boxShadow: '0 0 20px rgba(255,255,255,0.3)',
+                        borderRadius: '2px'
                     }}
                 />
+
+                {/* Subtle glow effect */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        height: '100%',
+                        width: `${progress}%`,
+                        background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)',
+                        animation: 'shine 2s ease-in-out infinite'
+                    }}
+                />
+            </div>
+
+            {/* Loading hint */}
+            <div
+                style={{
+                    fontSize: '12px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginTop: '2rem',
+                    fontFamily: 'Arial, sans-serif',
+                    letterSpacing: '0.5px',
+                    textAlign: 'center'
+                }}
+            >
+                Loading Dog Studio Experience
             </div>
 
             <style jsx>{`
         @keyframes bounce {
           0%, 80%, 100% {
             transform: scale(0);
+            opacity: 0.5;
           }
           40% {
             transform: scale(1);
+            opacity: 1;
+          }
+        }
+
+        @keyframes shine {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
           }
         }
       `}</style>
