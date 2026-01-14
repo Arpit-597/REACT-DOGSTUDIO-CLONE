@@ -1,12 +1,12 @@
 import { Canvas } from '@react-three/fiber'
 import './App.css'
 import Dog from './components/Dog'
+import Footer from './components/Footer'
 import ScrambleTextLoader from './components/ScrambleTextLoader'
 import * as THREE from 'three'
 import { useState, useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -210,13 +210,10 @@ function App() {
 
           <div className="fifth-line"></div>
         </section>
-        <div className="section-5" id='new-section'>
-          <div className="top">
 
-          </div>
-          <div className="bottom">
-          </div>
-        </div>
+        {/* Footer section */}
+        <Footer/>
+        
       </main>
     </>
   )
