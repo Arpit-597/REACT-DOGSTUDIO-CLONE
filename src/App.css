@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap');
 @import url('https://fonts.cdnfonts.com/css/heebo');
 @import url(https://db.onlinewebfonts.com/c/b207fae73e1bde668238f6d9d0598cc9?family=GT+Sectra+Display+Medium);
 @import url(https://db.onlinewebfonts.com/c/1dc8ecd8056a5ea7aa7de1db42b5b639?family=Gilroy-Regular);
@@ -18,6 +19,20 @@ body,
   color: whitesmoke;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   overflow-x: hidden;
+  font-family: Heebo, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 2.1;
+}
+h3{
+  font-family: Heebo, Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 22px;
+  margin: 0;
+  padding: 0;
+  margin: 0;
+  line-height: 18px;
 }
 
 /* #root ko 100% height and width so that canvas can cover whole viewport */
@@ -152,7 +167,7 @@ section {
         display: flex;
         margin-top: 60px;
         color: #ffffff;
-        font-size: .7857142857rem;
+        font-size: 11px;
         line-height: 1;
         list-style: none;
         justify-content: space-between;
@@ -568,70 +583,356 @@ main:has(#section-2 .title[img-title="opera"]:hover) .images #opera {
    SECTION 5 – FOOTER
    ========================= */
 
+/* ================================
+   BASE / GLOBAL
+================================ */
 
-
-.footer {
-  margin: 20px;
-  border-radius: 45px;
-  position: relative;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  text-align: center;
-  font-family: 'Heebo', Helvetica, sans-serif;
-  padding: 30px 60px;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  backdrop-filter: blur(15px) saturate(180%);
-  -webkit-backdrop-filter: blur(15px) saturate(180%); 
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25); 
+*, :before, :after {
+    box-sizing: inherit;
 }
 
-.icons-container a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  margin: 0 10px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px) saturate(180%);
-  -webkit-backdrop-filter: blur(10px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-  color: #fff;
-  font-size: 1.5rem;
-  transition: all 0.3s ease;
-  text-decoration: none;
+svg:not(:root) {
+    overflow-clip-margin: content-box;
+    overflow: hidden;
 }
 
-.icons-container a:hover {
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  color: #fffc;
+li {
+    display: list-item;
+    unicode-bidi: isolate;
 }
 
-@media (max-width: 768px) {
-  .footer {
-    flex-direction: column;
+html:not(.user-is-tabbing) a,
+html:not(.user-is-tabbing) button {
+    outline: none;
+}
+
+
+/* ================================
+   FOOTER LAYOUT WRAPPER
+================================ */
+
+.site-footer {
+    height: auto;
+    width: 100%;
+    z-index: 900;
+    margin: 0 auto;
+    position: relative;
+    background: linear-gradient(
+        180deg,
+        rgba(19, 20, 25, 0) 0%,
+        #131419 15%
+    );
+}
+
+.center {
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* ================================
+   FOOTER TOP / BOTTOM LAYOUT
+================================ */
+
+.site-footer-bottom {
+    padding-top: 23px;
+    padding-bottom: 25px;
+    border-top: 1px solid rgba(182, 193, 250, .1);
+}
+
+@media (min-width: 48em) {
+    .site-footer-top {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+}
+
+@media (min-width: 50.9375em) {
+    .site-footer-top {
+        padding-bottom: 85px;
+    }
+
+    .site-footer-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+
+/* ================================
+   FOOTER BLOCKS
+================================ */
+
+.site-footer-block {
+    width: 18%;
+}
+
+.site-footer-block--social {
+    margin-left: 100px;
+}
+
+
+/* ================================
+   FOOTER TITLES
+================================ */
+
+.site-footer-title {
+    text-align: right;
+}
+
+.site-footer-title .baseline {
+    display: block;
+    width: 45px;
+    fill: #fff;
+    margin-left: auto;
+}
+
+@media (min-width: 50.9375em) {
+    .site-footer-title {
+        text-align: right;
+    }
+
+    .site-footer-title .baseline {
+        margin-left: auto;
+    }
+}
+
+
+/* ================================
+   FOOTER CONTACT
+================================ */
+
+.site-footer-contact {
+    font-family: Heebo, Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    color: rgba(160, 168, 220, .7);
+    font-size: 11px;
+    line-height: 1;
+}
+
+.site-footer-contact a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.site-footer-contact a:before {
+    margin: 0 15px;
+    height: 1px;
+    width: 28px;
+    content: "";
+    display: inline-block;
+    background-color: rgba(187, 194, 229, .3);
+    vertical-align: middle;
+}
+
+
+/* ================================
+   FOOTER NEWSLETTER
+================================ */
+
+.site-footer-newsletter {
+    font-family: Heebo, Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    color: rgba(160, 168, 220, .7);
+    font-size: 12px;
+    line-height: 1;
+}
+
+.site-footer-newsletter a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.site-footer-newsletter .svg {
+    width: 18px;
+    height: 11px;
+    margin-top: -2px;
+    margin-right: 15px;
+    transition: fill .4s cubic-bezier(.165, .84, .44, 1);
+    opacity: 0.1;
+    vertical-align: middle;
+}
+
+.svg {
+    display: inline-block;
+}
+
+
+/* ================================
+   FOOTER ADDRESS
+================================ */
+
+.site-footer-block--address b {
+    font-family: Gilroy, Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    color: #ff4940;
+    font-size: .8571428571rem;
+    line-height: 1;
+}
+
+
+/* ================================
+   SOCIAL LINKS
+================================ */
+
+.site-footer-block--social ul {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+    margin-right: -10px;
+    color: rgba(187, 194, 229, .3);
+    font-size: 11px;
+    line-height: 1;
+    list-style: none;
+}
+
+.site-footer-block--social li {
+    font-family: Heebo, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    color: rgba(160, 168, 220, .7);
+    font-size: 11px;
+    line-height: 1;
+    position: relative;
+}
+
+.site-footer-block--social li + li:before {
+    position: absolute;
+    top: 50%;
+    left: -1px;
+    content: "/";
+    transform: translateY(-50%);
+}
+
+.site-footer-block--social a {
+    position: relative;
+    padding: 6px 10px;
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* ================================
+   LANGUAGE SELECTOR
+================================ */
+
+.site-footer-languages {
+    font-family: Gilroy, Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    display: flex;
     align-items: center;
-    text-align: center;
-    gap: 5px;
-    padding: 20px;
-  }
-
-  .footer p{
-    font-size: small;
-  }
-
-  .icons-container a {
-    width: 40px;
-    height: 40px;
-    font-size: 1.1rem;
-  }
-
+    font-size: 11px;
+    line-height: 1;
+    color: rgba(160, 168, 220, .7);
 }
+
+.site-footer-languages:before {
+    margin: 0 20px;
+    height: 1px;
+    width: 30px;
+    content: "";
+    border-top: 1px solid rgba(182, 193, 250, .1);
+}
+
+.site-footer-languages ul {
+    list-style: none;
+    margin-left: 4px;
+    display: flex;
+    flex-direction: column-reverse;
+    max-height: 25px;
+    width: 94px;
+    overflow: hidden;
+}
+
+.site-footer-languages li:first-child a:before {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.site-footer-languages a {
+    font-family: Gilroy, Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    padding: 7px 8px;
+    position: relative;
+    display: block;
+    width: 100%;
+    color: #fff;
+    text-decoration: none;
+    pointer-events: none;
+    background-color: #131419;
+    text-align: left;
+    border-radius: 3px;
+    transition: background-color .2s cubic-bezier(.165, .84, .44, 1);
+}
+
+.site-footer-languages a:before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    border: 1px solid transparent;
+    opacity: .2;
+    border-radius: 3px;
+}
+
+.site-footer-languages img {
+    margin-right: 3px;
+}
+
+/* Caret icon inside language selector */
+.site-footer-languages .svg-caret-right img {
+    position: absolute;
+    top: 40%;
+    right: 20.5px;
+    width: 7px;
+    height: 5px;
+    transition: opacity .2s cubic-bezier(.165, .84, .44, 1);
+}
+
+/* Hover / focus behavior */
+.site-footer-languages:focus-within li:not(.is-active) a,
+.site-footer-languages:focus li:not(.is-active) a,
+.site-footer-languages:hover li:not(.is-active) a {
+    pointer-events: all;
+}
+
+
+/* ================================
+   RIGHT SIDE GROUPING
+================================ */
+
+@media (min-width: 50.9375em) {
+    .site-footer-right {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+
+/* ================================
+   SCROLL APPEAR ANIMATIONS
+================================ */
+
+html:not(.disable-motion) .appear-fade-up {
+    transform: translateY(50px);
+    opacity: 0;
+    transition:
+        opacity .8s cubic-bezier(.215, .61, .355, 1) .1s,
+        transform .8s cubic-bezier(.215, .61, .355, 1) .1s;
+}
+
+html:not(.disable-motion) .in-view .appear-fade-up {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Delay modifiers */
+html:not(.disable-motion) .appear-delay--1 { transition-delay: .1s; }
+html:not(.disable-motion) .appear-delay--2 { transition-delay: .2s; }
+html:not(.disable-motion) .appear-delay--3 { transition-delay: .3s; }
+html:not(.disable-motion) .appear-delay--4 { transition-delay: .4s; }
+html:not(.disable-motion) .appear-delay--5 { transition-delay: .5s; }
+
