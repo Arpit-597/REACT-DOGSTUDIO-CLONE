@@ -1,12 +1,12 @@
-import { Canvas } from '@react-three/fiber'
-import './App.css'
-import Dog from './components/Dog'
-import ScrambleTextLoader from './components/ScrambleTextLoader'
-import * as THREE from 'three'
-import { useState, useRef, useEffect } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
+import { Canvas } from "@react-three/fiber";
+import "./App.css";
+import Dog from "./components/Dog";
+import Footer from "./components/Footer";
+import ScrambleTextLoader from "./components/ScrambleTextLoader";
+import * as THREE from "three";
+import { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -18,53 +18,60 @@ function App() {
     gsap.to(backgroundRef.current, {
       opacity: 0,
       scrollTrigger: {
-        trigger: 'body',
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: true
-      }
+        trigger: "body",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true,
+      },
     });
   }, []);
 
   return (
     <>
-      <main style={{
-        backgroundImage: 'url(./background2.png)',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-      }}>
-        <div className="images">
-          <img id='tomorrowland' src="./tomorrowland.png" alt="" />
-          <img id='navy-pier' src="./navy-pier.png" alt="" />
-          <img id='msi-chicago' src="./msi-chicago.png" alt="" />
-          <img id='phone' src="./phone.png" alt="" />
-          <img id='kikk' src="./kikk.png" alt="" />
-          <img id='kennedy' src="./kennedy.png" alt="" />
-          <img id='opera' src="./opera.png" alt="" />
-        </div>
-        <Canvas id='canvas-elem' style={{
-          height: "100%",
-          width: "100%",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          zIndex: 1
+      <main
+        style={{
+          backgroundImage: "url(./background2.png)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
         }}
-
+      >
+        <div className="images">
+          <img id="tomorrowland" src="./tomorrowland.png" alt="" />
+          <img id="navy-pier" src="./navy-pier.png" alt="" />
+          <img id="msi-chicago" src="./msi-chicago.png" alt="" />
+          <img id="phone" src="./phone.png" alt="" />
+          <img id="kikk" src="./kikk.png" alt="" />
+          <img id="kennedy" src="./kennedy.png" alt="" />
+          <img id="opera" src="./opera.png" alt="" />
+        </div>
+        <Canvas
+          id="canvas-elem"
+          style={{
+            height: "100%",
+            width: "100%",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            zIndex: 1,
+          }}
           gl={{
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: 1.05,
             outputColorSpace: THREE.SRGBColorSpace,
           }}
-          camera={{ position: [0, 0, 0.55] }}>
-
+          camera={{ position: [0, 0, 0.55] }}
+        >
           <Dog />
         </Canvas>
         <ScrambleTextLoader />
-        <section id='section-1'>
+        <section id="section-1">
           <nav>
             <div className="nav-elem">
-              <svg xmlns="http://www.w3.org/2000/svg" fill='white' viewBox="0 0 401.23099 116.838">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="white"
+                viewBox="0 0 401.23099 116.838"
+              >
                 <path d="M97.9212,84.4793c0-13.21301-7.2132-23.3924-25.54961-23.3924h-19.6172v46.7851h19.6172c18.3364,0,25.54961-10.1797,25.54961-23.3927Zm-13.3478,0c0,9.2356-5.1908,12.6737-12.404,12.6737h-6.6739v-25.3474h6.6739c7.2132,0,12.404,3.4381,12.404,12.6737Z"></path>
                 <path d="M100.972,107.872h37.078v-10.6516h-24.33701v-8.0222h21.37v-10.112h-21.37v-7.348h23.73v-10.6513h-36.47099v46.7851Z"></path>
                 <path d="M181.211,77.3335c0-11.7973-7.55-16.2466-19.28-16.2466h-20.29199v46.7851h12.741v-14.2919h7.55099c11.73,0,19.28-4.4493,19.28-16.2466Zm-13.213,0c0,4.5841-2.157,6.47169-7.34801,6.47169h-6.26999v-12.9434h6.26999c5.19101,0,7.34801,1.8876,7.34801,6.4717Z"></path>
@@ -84,10 +91,14 @@ function App() {
             </div>
             <div className="nav-elem">
               {/* Clickable link */}
-              <a href="#!" onClick={(e) => {
-                e.preventDefault();
-                setOpen(true);
-              }} className="showreel-link">
+              <a
+                href="#!"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpen(true);
+                }}
+                className="showreel-link"
+              >
                 <i className="ri-arrow-right-s-line"></i>
                 Our Showreel
               </a>
@@ -95,8 +106,14 @@ function App() {
               {/* Overlay */}
               {open && (
                 <div className="video-overlay" onClick={() => setOpen(false)}>
-                  <div className="video-container" onClick={(e) => e.stopPropagation()}>
-                    <button className="close-btn" onClick={() => setOpen(false)}>
+                  <div
+                    className="video-container"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      className="close-btn"
+                      onClick={() => setOpen(false)}
+                    >
                       ✕
                     </button>
 
@@ -117,7 +134,12 @@ function App() {
           </nav>
           <div className="middle">
             <div className="left">
-              <h1>We <br />Make <br />Good <br />Shit</h1>
+              <h1>
+                We <br />
+                Make <br />
+                Good <br />
+                Shit
+              </h1>
             </div>
             <div className="right"></div>
           </div>
@@ -131,20 +153,45 @@ function App() {
               </p>
 
               <p>
-                <span>Our goal is to deliver amazing experiences that make</span>
-                <span>people talk, and build strategic value for brands, tech,</span>
+                <span>
+                  Our goal is to deliver amazing experiences that make
+                </span>
+                <span>
+                  people talk, and build strategic value for brands, tech,
+                </span>
                 <span>entertainment, arts &amp; culture.</span>
               </p>
               <ul>
-                <li><a href="https://www.facebook.com/dogstudio/" target="_blank">Facebook</a></li>
+                <li>
+                  <a href="https://www.facebook.com/dogstudio/" target="_blank">
+                    Facebook
+                  </a>
+                </li>
                 <p> / </p>
-                <li><a href="https://www.instagram.com/dogstudio.co/" target="_blank">Instagram</a></li>
+                <li>
+                  <a
+                    href="https://www.instagram.com/dogstudio.co/"
+                    target="_blank"
+                  >
+                    Instagram
+                  </a>
+                </li>
                 <p> / </p>
-                <li><a href="https://dribbble.com/dogstudio" target="_blank">Dribbble</a></li>
+                <li>
+                  <a href="https://dribbble.com/dogstudio" target="_blank">
+                    Dribbble
+                  </a>
+                </li>
                 <p> / </p>
-                <li><a href="https://twitter.com/Dogstudio" target="_blank">Twitter</a></li>
+                <li>
+                  <a href="https://twitter.com/Dogstudio" target="_blank">
+                    Twitter
+                  </a>
+                </li>
                 <p> / </p>
-                <li><a href="https://dogstudio.co/newsletter/">Newsletter</a></li>
+                <li>
+                  <a href="https://dogstudio.co/newsletter/">Newsletter</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -152,74 +199,83 @@ function App() {
           <div className="first-line"></div>
           <div className="second-line"></div>
         </section>
-        <section id='section-2'>
+        <section id="section-2">
           <div className="titles">
-            <span img-title='tomorrowland' className="title">
+            <span img-title="tomorrowland" className="title">
               <small>2020 - ONGOING</small>
               <h1>Tomorrowland</h1>
             </span>
-            <div img-title='navy-pier' className="title">
+            <div img-title="navy-pier" className="title">
               <small>2018 - TODAY</small>
               <h1>Navy Pier</h1>
             </div>
-            <div img-title='msi-chicago' className="title">
+            <div img-title="msi-chicago" className="title">
               <small>2015 - TODAY</small>
               <h1>MSI Chicago</h1>
             </div>
-            <div img-title='phone' className="title">
+            <div img-title="phone" className="title">
               <small>2016</small>
               <h1>This Was Lousie's Phone</h1>
             </div>
-            <div img-title='kikk' className="title">
+            <div img-title="kikk" className="title">
               <small>2012 - TODAY</small>
               <h1>KIKK FESTIVAL 2018</h1>
             </div>
-            <div img-title='kennedy' className="title">
+            <div img-title="kennedy" className="title">
               <small>2017</small>
               <h1>The Kennedy Center</h1>
             </div>
-            <div img-title='opera' className="title">
+            <div img-title="opera" className="title">
               <small>2016 - ONGOING</small>
               <h1>Royal Opera Of Wallonia</h1>
             </div>
           </div>
           <div className="third-line"></div>
         </section>
-        <section id='section-3'>
+        <section id="section-3">
           <div className="top">
-            <p className='first-p'>This is how we do it</p>
-            <p className='left'>We're crafting <br /> emotional <br /> experiences aimed <br />at improving <br />results</p>
+            <p className="first-p">This is how we do it</p>
+            <p className="left">
+              We're crafting <br /> emotional <br /> experiences aimed <br />
+              at improving <br />
+              results
+            </p>
             <div className="right"></div>
           </div>
         </section>
-        <section id='section-4'>
+        <section id="section-4">
           <div className="bottom">
             <div className="left"></div>
             <div className="right">
-              <p>Dogstudio is a design & technology firm working globally from our offices based in Belgium and Chicago. <br />
-                Our strong focus on producing high quality & emotional brandings, digital products and experiences became a signature.</p>
-              <p>We’re passionate about moving people and solving problems for the likes of Microsoft, The Museum of Science And Industry Of Chicago, The Kennedy Center of Washington, Dragone, Quanta Magazine, and many more.</p>
+              <p>
+                Dogstudio is a design & technology firm working globally from
+                our offices based in Belgium and Chicago. <br />
+                Our strong focus on producing high quality & emotional
+                brandings, digital products and experiences became a signature.
+              </p>
+              <p>
+                We’re passionate about moving people and solving problems for
+                the likes of Microsoft, The Museum of Science And Industry Of
+                Chicago, The Kennedy Center of Washington, Dragone, Quanta
+                Magazine, and many more.
+              </p>
             </div>
             <div className="red-line-pointer">
-              <div className='hover-div'>
+              <div className="hover-div">
                 Discover our values
-                <div className='red-line'></div>
+                <div className="red-line"></div>
               </div>
             </div>
           </div>
 
           <div className="fifth-line"></div>
         </section>
-        <div className="section-5" id='new-section'>
-          <div className="top">
 
-          </div>
-          <div className="bottom">
-          </div>
-        </div>
+        {/* Footer section */}
+        <Footer />
       </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
