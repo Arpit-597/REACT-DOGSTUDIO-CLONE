@@ -1,28 +1,22 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import * as THREE from "three";
-import { Canvas, useThree } from "@react-three/fiber";
-import { DirectionalLight, Scene } from "three";
-import {
-  OrbitControls,
-  useGLTF,
-  useTexture,
-  useAnimations,
-} from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
+import { useGLTF, useTexture, useAnimations } from "@react-three/drei";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const Dog = ({ theme }) => {
-  gsap.registerPlugin(useGSAP);
-  gsap.registerPlugin(ScrollTrigger);
-  // model component mai aaya h
-  const model = useGLTF("./models/dog.drc.glb");
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-  useThree(({ camera, scene, gl }) => {
+const Dog = ({ theme }) => {
+  const model = useGLTF("./models/dog.drc.glb");
+  const { camera, gl } = useThree();
+
+  useEffect(() => {
     camera.position.z = 0.55;
     gl.toneMapping = THREE.ReinhardToneMapping;
     gl.outputColorSpace = THREE.SRGBColorSpace;
-  });
+  }, [camera, gl]);
 
   // Use animation takes 2 things , model animation which we got in our model attached and the whole scene
   // and it returns an actions object which we can apply or activate
@@ -79,101 +73,95 @@ const Dog = ({ theme }) => {
     return texture;
   });
 
+  const eyematcap = useTexture("./matcap/mat-1.png");
+  eyematcap.colorSpace = THREE.SRGBColorSpace;
+
   // So this applies on onBeforeCompile and this do:
   // like for 0.2 uProgress , uMatcap2 will take 20% of the total material
-  const material = useRef({
+  const materialUniforms = useRef({
     uMatcap1: { value: mat2 },
     uMatcap2: { value: mat2 },
     uProgress: { value: 1.0 },
   });
 
-  const dogMaterial = new THREE.MeshMatcapMaterial({
-    normalMap: normalMap,
-    matcap: mat2,
-    normalScale: new THREE.Vector2(1.2, 1.2),
-  });
+  const materials = useMemo(() => {
+    function onBeforeCompile(shader) {
+      shader.uniforms.uMatcapTexture1 = materialUniforms.current.uMatcap1;
+      shader.uniforms.uMatcapTexture2 = materialUniforms.current.uMatcap2;
+      shader.uniforms.uProgress = materialUniforms.current.uProgress;
 
-  const branchMaterial = new THREE.MeshMatcapMaterial({
-    matcap: mat2,
-    normalMap: branchNormalMap,
-    normalScale: new THREE.Vector2(10, 10),
-  });
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "void main() {",
+        `
+              uniform sampler2D uMatcapTexture1;
+              uniform sampler2D uMatcapTexture2;
+              uniform float uProgress;
+  
+              void main() {
+              `,
+      );
 
-  const eyematcap = useTexture("./matcap/mat-1.png");
-  eyematcap.colorSpace = THREE.SRGBColorSpace;
-
-  const eyeMaterial = new THREE.MeshMatcapMaterial({
-    // specularMap: specularMap,
-    // diffuseMap: diffuseMap,
-    normalMap: normalMap,
-    matcap: eyematcap,
-    // color: 0x000000
-  });
-
-  //  So GLSL interacts with GPU and give us a object with computed values of how it would look like
-  // Ḷike in a browser if it is 60fps then it will do computation for each frame means 60 frame per sec
-  // and the vertex shader and fragment shader we talked about will run for all the objects once in our threejs
-  // and then give us colors , materials , shape etc.
-  // means the shaders will run for each frame
-  function onBeforeCompile(shader) {
-    shader.uniforms.uMatcapTexture1 = material.current.uMatcap1;
-    shader.uniforms.uMatcapTexture2 = material.current.uMatcap2;
-    shader.uniforms.uProgress = material.current.uProgress;
-
-    // Store reference to shader uniforms for GSAP animation
-    // node_modules -> three -> renderers -> shader -> meshmatcap
-    // In that we can see that fragment shader has a string so we replace void main() { with the below one,
-    //  NOT REPLACED THE FUNCTION , JUST THAT STRING PART
-    shader.fragmentShader = shader.fragmentShader.replace(
-      "void main() {",
-      `
-            uniform sampler2D uMatcapTexture1;
-            uniform sampler2D uMatcapTexture2;
-            uniform float uProgress;
-
-            void main() {
-            `,
-    );
-
-    shader.fragmentShader = shader.fragmentShader.replace(
-      // Final matcap color which will be applied on material
-      // transitionFactor mtlb kitna merge hoga
-      "vec4 matcapColor = texture2D( matcap, uv );",
-      `
-            vec4 matcapColor1 = texture2D( uMatcapTexture1, uv );
-            vec4 matcapColor2 = texture2D( uMatcapTexture2, uv );
-            float transitionFactor = 0.01;
-
-            float progress = smoothstep(uProgress - transitionFactor,uProgress, (vViewPosition.x + vViewPosition.y)*0.5 + 0.5);
-
-            vec4 matcapColor = mix(matcapColor2, matcapColor1, progress);
-            `,
-    );
-  }
-
-  // So onBeforeCompile means that the vertex and fragment shader code we talked about
-  // we know that will run on each frame
-  // so with this onBeforeCompile , before each frame runs we can change/edit the vertex and fragment shader code
-  dogMaterial.onBeforeCompile = onBeforeCompile;
-  branchMaterial.onBeforeCompile = onBeforeCompile;
-
-  // This will select every element each once , so total of 108 elements (objects)
-  model.scene.traverse((child) => {
-    // Every child has a name here , and we will use it to check whether it has DOG name in it or not
-    if (child.isMesh && child.name.includes("DOG")) {
-      // console.log(child.name)
-      // Now child ke material pe upar waala normalMap lagana hai
-      // MeshBasicMaterial is a type of material which doesnt interact with light any all
-      // Sometimes normalMap does not fit properly, so we flip them along Y-axis
-      child.material = dogMaterial;
-      // sampleMapCat.flipY = false
-      if (child.name.includes("eye")) {
-        child.material = eyeMaterial;
-      }
-    } else {
-      child.material = branchMaterial;
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "vec4 matcapColor = texture2D( matcap, uv );",
+        `
+              vec4 matcapColor1 = texture2D( uMatcapTexture1, uv );
+              vec4 matcapColor2 = texture2D( uMatcapTexture2, uv );
+              float transitionFactor = 0.01;
+  
+              float progress = smoothstep(uProgress - transitionFactor,uProgress, (vViewPosition.x + vViewPosition.y)*0.5 + 0.5);
+  
+              vec4 matcapColor = mix(matcapColor2, matcapColor1, progress);
+              `,
+      );
     }
-  });
+
+    const dogMat = new THREE.MeshMatcapMaterial({
+      normalMap: normalMap,
+      matcap: mat2,
+      normalScale: new THREE.Vector2(1.2, 1.2),
+    });
+    dogMat.onBeforeCompile = onBeforeCompile;
+
+    const branchMat = new THREE.MeshMatcapMaterial({
+      matcap: mat2,
+      normalMap: branchNormalMap,
+      normalScale: new THREE.Vector2(10, 10),
+    });
+    branchMat.onBeforeCompile = onBeforeCompile;
+
+    const eyeMat = new THREE.MeshMatcapMaterial({
+      normalMap: normalMap,
+      matcap: eyematcap,
+    });
+
+    return { dogMat, branchMat, eyeMat };
+  }, [normalMap, mat2, branchNormalMap, eyematcap]);
+
+  // Clean up materials on unmount
+  useEffect(() => {
+    return () => {
+      materials.dogMat.dispose();
+      materials.branchMat.dispose();
+      materials.eyeMat.dispose();
+    };
+  }, [materials]);
+
+  // Apply materials once
+  useEffect(() => {
+    model.scene.traverse((child) => {
+      if (child.isMesh) {
+        if (child.name.includes("DOG")) {
+          if (child.name.includes("eye")) {
+            child.material = materials.eyeMat;
+          } else {
+            child.material = materials.dogMat;
+          }
+        } else {
+          child.material = materials.branchMat;
+        }
+      }
+    });
+  }, [model.scene, materials]);
 
   const dogModel = useRef(model);
 
@@ -223,13 +211,14 @@ const Dog = ({ theme }) => {
     document
       .querySelector(`.title[img-title="tomorrowland"]`)
       .addEventListener("mouseenter", () => {
-        material.current.uMatcap1.value = mat19;
-        gsap.to(material.current.uProgress, {
+        materialUniforms.current.uMatcap1.value = mat19;
+        gsap.to(materialUniforms.current.uProgress, {
           value: 0.0,
           duration: 0.5,
           onComplete: () => {
-            material.current.uMatcap2.value = material.current.uMatcap1.value;
-            material.current.uProgress.value = 1.0;
+            materialUniforms.current.uMatcap2.value =
+              materialUniforms.current.uMatcap1.value;
+            materialUniforms.current.uProgress.value = 1.0;
           },
         });
       });
@@ -237,26 +226,28 @@ const Dog = ({ theme }) => {
     document
       .querySelector(`.title[img-title="navy-pier"]`)
       .addEventListener("mouseenter", () => {
-        material.current.uMatcap1.value = mat8;
-        gsap.to(material.current.uProgress, {
+        materialUniforms.current.uMatcap1.value = mat8;
+        gsap.to(materialUniforms.current.uProgress, {
           value: 0.0,
           duration: 0.5,
           onComplete: () => {
-            material.current.uMatcap2.value = material.current.uMatcap1.value;
-            material.current.uProgress.value = 1.0;
+            materialUniforms.current.uMatcap2.value =
+              materialUniforms.current.uMatcap1.value;
+            materialUniforms.current.uProgress.value = 1.0;
           },
         });
       });
     document
       .querySelector(`.title[img-title="msi-chicago"]`)
       .addEventListener("mouseenter", () => {
-        material.current.uMatcap1.value = mat9;
-        gsap.to(material.current.uProgress, {
+        materialUniforms.current.uMatcap1.value = mat9;
+        gsap.to(materialUniforms.current.uProgress, {
           value: 0.0,
           duration: 0.5,
           onComplete: () => {
-            material.current.uMatcap2.value = material.current.uMatcap1.value;
-            material.current.uProgress.value = 1.0;
+            materialUniforms.current.uMatcap2.value =
+              materialUniforms.current.uMatcap1.value;
+            materialUniforms.current.uProgress.value = 1.0;
           },
         });
       });
@@ -264,26 +255,28 @@ const Dog = ({ theme }) => {
     document
       .querySelector(`.title[img-title="phone"]`)
       .addEventListener("mouseenter", () => {
-        material.current.uMatcap1.value = mat12;
-        gsap.to(material.current.uProgress, {
+        materialUniforms.current.uMatcap1.value = mat12;
+        gsap.to(materialUniforms.current.uProgress, {
           value: 0.0,
           duration: 0.3,
           onComplete: () => {
-            material.current.uMatcap2.value = material.current.uMatcap1.value;
-            material.current.uProgress.value = 1.0;
+            materialUniforms.current.uMatcap2.value =
+              materialUniforms.current.uMatcap1.value;
+            materialUniforms.current.uProgress.value = 1.0;
           },
         });
       });
     document
       .querySelector(`.title[img-title="kikk"]`)
       .addEventListener("mouseenter", () => {
-        material.current.uMatcap1.value = mat10;
-        gsap.to(material.current.uProgress, {
+        materialUniforms.current.uMatcap1.value = mat10;
+        gsap.to(materialUniforms.current.uProgress, {
           value: 0.0,
           duration: 0.5,
           onComplete: () => {
-            material.current.uMatcap2.value = material.current.uMatcap1.value;
-            material.current.uProgress.value = 1.0;
+            materialUniforms.current.uMatcap2.value =
+              materialUniforms.current.uMatcap1.value;
+            materialUniforms.current.uProgress.value = 1.0;
           },
         });
       });
@@ -291,38 +284,41 @@ const Dog = ({ theme }) => {
     document
       .querySelector(`.title[img-title="kennedy"]`)
       .addEventListener("mouseenter", () => {
-        material.current.uMatcap1.value = mat11;
-        gsap.to(material.current.uProgress, {
+        materialUniforms.current.uMatcap1.value = mat11;
+        gsap.to(materialUniforms.current.uProgress, {
           value: 0.0,
           duration: 0.5,
           onComplete: () => {
-            material.current.uMatcap2.value = material.current.uMatcap1.value;
-            material.current.uProgress.value = 1.0;
+            materialUniforms.current.uMatcap2.value =
+              materialUniforms.current.uMatcap1.value;
+            materialUniforms.current.uProgress.value = 1.0;
           },
         });
       });
     document
       .querySelector(`.title[img-title="opera"]`)
       .addEventListener("mouseenter", () => {
-        material.current.uMatcap1.value = mat13;
-        gsap.to(material.current.uProgress, {
+        materialUniforms.current.uMatcap1.value = mat13;
+        gsap.to(materialUniforms.current.uProgress, {
           value: 0.0,
           duration: 0.5,
           onComplete: () => {
-            material.current.uMatcap2.value = material.current.uMatcap1.value;
-            material.current.uProgress.value = 1.0;
+            materialUniforms.current.uMatcap2.value =
+              materialUniforms.current.uMatcap1.value;
+            materialUniforms.current.uProgress.value = 1.0;
           },
         });
       });
     document.querySelector(`.titles`).addEventListener("mouseleave", () => {
-      material.current.uMatcap1.value = mat2;
+      materialUniforms.current.uMatcap1.value = mat2;
 
-      gsap.to(material.current.uProgress, {
+      gsap.to(materialUniforms.current.uProgress, {
         value: 0.0,
         duration: 0.5,
         onComplete: () => {
-          material.current.uMatcap2.value = material.current.uMatcap1.value;
-          material.current.uProgress.value = 1.0;
+          materialUniforms.current.uMatcap2.value =
+            materialUniforms.current.uMatcap1.value;
+          materialUniforms.current.uProgress.value = 1.0;
         },
       });
     });
