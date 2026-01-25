@@ -5,12 +5,22 @@ import Footer from "./components/Footer";
 import ScrambleTextLoader from "./components/ScrambleTextLoader";
 import * as THREE from "three";
 import { useState, useRef, useEffect } from "react";
+import ThemeToggle from "./components/ThemeToggle";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 function App() {
   const [open, setOpen] = useState(false);
+  const [theme, setTheme] = useState("dark");
   const backgroundRef = useRef(null);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -28,13 +38,7 @@ function App() {
 
   return (
     <>
-      <main
-        style={{
-          backgroundImage: "url(./background2.png)",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
-      >
+      <main className="main-content">
         <div className="images">
           <img id="tomorrowland" src="./tomorrowland.png" alt="" />
           <img id="navy-pier" src="./navy-pier.png" alt="" />
@@ -61,7 +65,7 @@ function App() {
           }}
           camera={{ position: [0, 0, 0.55] }}
         >
-          <Dog />
+          <Dog theme={theme} />
         </Canvas>
         <ScrambleTextLoader />
         <section id="section-1">
@@ -128,8 +132,12 @@ function App() {
                 </div>
               )}
             </div>
-            <div className="nav-elem">
-              <i className="ri-menu-3-line"></i>
+            <div
+              className="nav-elem"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+              <i className="ri-menu-3-line" style={{ marginLeft: "20px" }}></i>
             </div>
           </nav>
           <div className="middle">

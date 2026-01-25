@@ -1,7 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap');
-@import url('https://fonts.cdnfonts.com/css/heebo');
+@import url("https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap");
+@import url("https://fonts.cdnfonts.com/css/heebo");
 @import url(https://db.onlinewebfonts.com/c/b207fae73e1bde668238f6d9d0598cc9?family=GT+Sectra+Display+Medium);
 @import url(https://db.onlinewebfonts.com/c/1dc8ecd8056a5ea7aa7de1db42b5b639?family=Gilroy-Regular);
+
+:root {
+  --bg-color: #0d0d0d;
+  --text-color: #e0e0e0;
+  --text-bright: #ffffff;
+  --text-muted: rgba(160, 168, 220, 0.7);
+  --accent-color: #ff4940;
+  --accent-red-bright: #e43333;
+  --footer-bg: #131419;
+  --nav-bg: rgba(13, 13, 13, 0.8);
+  --border-color: rgba(187, 194, 229, 0.1);
+  --transition-speed: 0.3s;
+  --main-bg-img: url("/background-1.png");
+}
+
+[data-theme="light"] {
+  --bg-color: #f8f8f8;
+  --text-color: #1a1a1a;
+  --text-bright: #000000;
+  --text-muted: rgba(0, 0, 0, 0.6);
+  --accent-color: #d70015;
+  --accent-red-bright: #ff0000;
+  --footer-bg: #ffffff;
+  --nav-bg: rgba(248, 248, 248, 0.8);
+  --border-color: rgba(0, 0, 0, 0.1);
+  --main-bg-img: url("/background-2.png");
+}
 
 * {
   margin: 0;
@@ -13,18 +40,18 @@ html,
 body,
 #root {
   width: 100%;
-  /* height: 100%; */
-  /* height avoided because it creates problem in responsives , until needed very much avoid it */
-  background-color: black;
-  color: whitesmoke;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  overflow-x: hidden;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   font-family: Heebo, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
   font-weight: 400;
   font-style: normal;
   line-height: 2.1;
+  transition:
+    background-color var(--transition-speed) ease,
+    color var(--transition-speed) ease;
 }
-h3{
+h3 {
   font-family: Heebo, Helvetica, Arial, sans-serif;
   font-weight: 300;
   font-style: normal;
@@ -40,6 +67,10 @@ h3{
 main {
   /* main ko relative banaya taaki canvas fixed position le sake */
   position: relative;
+  background-image: var(--main-bg-img);
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: background-image 0.5s ease;
 }
 
 section {
@@ -61,7 +92,6 @@ section {
   transition: all 0.3s linear;
 }
 
-
 #section-1 {
   position: relative;
   --gap: 3rem;
@@ -74,16 +104,16 @@ section {
     padding-top: 2.5rem;
 
     .nav-elem:nth-child(2) {
-      font-family: 'Heebo', Helvetica, sans-serif;
+      font-family: "Heebo", Helvetica, sans-serif;
       font-weight: 500;
       font-style: normal;
-      color: #fff;
-      font-size: .9285714286rem;
+      color: var(--text-bright);
+      font-size: 0.9285714286rem;
       line-height: 1;
       text-decoration: none;
 
       i {
-        color: red;
+        color: var(--accent-red-bright);
       }
     }
 
@@ -99,8 +129,8 @@ section {
       flex-shrink: 0;
       width: 104px;
       height: 30px;
-      transition: fill .6s cubic-bezier(.165, .84, .44, 1);
-      fill: #fff;
+      transition: fill 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+      fill: var(--text-bright);
     }
   }
 
@@ -124,7 +154,7 @@ section {
       font-size: 5rem;
       line-height: 0.8;
       text-align: right;
-      font-family: 'GT Sectra Display Medium', Times, serif;
+      font-family: "GT Sectra Display Medium", Times, serif;
       font-weight: normal;
       font-style: normal;
       font-size: 8.5rem;
@@ -146,19 +176,19 @@ section {
       /* margin-top: 145px; */
       /* margin-right: 60px; */
       /* margin-left: auto; */
-      font-family: 'Heebo', Helvetica, sans-serif;
+      font-family: "Heebo", Helvetica, sans-serif;
       font-weight: 400;
       font-style: normal;
-      color: rgba(160, 168, 220, .7);
+      color: rgba(160, 168, 220, 0.7);
       font-size: 1rem;
       line-height: 1.7142857143;
 
       .lead {
         margin-bottom: 30px;
-        font-family: 'Heebo', Helvetica, sans-serif;
+        font-family: "Heebo", Helvetica, sans-serif;
         font-weight: 300;
         font-style: normal;
-        color: #fff;
+        color: var(--text-bright);
         font-size: 1.6428571429rem;
         line-height: 1.52;
       }
@@ -166,7 +196,7 @@ section {
       ul {
         display: flex;
         margin-top: 60px;
-        color: #ffffff;
+        color: var(--text-bright);
         font-size: 11px;
         line-height: 1;
         list-style: none;
@@ -174,7 +204,7 @@ section {
       }
 
       a {
-        color: #fff;
+        color: var(--text-bright);
         text-decoration: none;
         margin: 0;
         padding: 0;
@@ -207,7 +237,6 @@ section {
   .showreel-link:hover i {
     transform: translateX(6px);
   }
-
 
   /* Overlay */
   .video-overlay {
@@ -258,7 +287,7 @@ section {
     width: 680px;
     /* -webkit-transform: rotate(45deg) translateY(-50%) translateY(60px); */
     transform: rotate(45deg);
-    background-color: #e43333
+    background-color: var(--accent-red-bright);
   }
 
   .second-line {
@@ -268,12 +297,11 @@ section {
     height: 1px;
     width: 160px;
     transform: rotate(-45deg);
-    background-color: #E43313;
+    background-color: #e43313;
   }
 }
 
 #section-2 {
-
   .titles {
     display: flex;
     flex-direction: column;
@@ -286,11 +314,11 @@ section {
     display: flex;
     gap: 4rem;
     /* opacity: 0.2; */
-    font-family: 'Heebo', Helvetica, sans-serif;
+    font-family: "Heebo", Helvetica, sans-serif;
     font-weight: 100;
     padding-block: 2rem;
-    color: rgba(187, 194, 229, .3);
-    transition: color .6s cubic-bezier(.165, .84, .44, 1);
+    color: rgba(187, 194, 229, 0.3);
+    transition: color 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     cursor: pointer;
 
     h1 {
@@ -303,7 +331,7 @@ section {
 
     small {
       margin-top: 0.6rem;
-      font-size: .6428571429rem;
+      font-size: 0.6428571429rem;
       letter-spacing: 0.2rem;
       font-weight: 500;
       width: 8rem;
@@ -315,7 +343,7 @@ section {
 
   .title:hover {
     /* opacity: 1; */
-    color: #fff;
+    color: var(--text-bright);
   }
 
   .third-line {
@@ -326,7 +354,7 @@ section {
     width: 680px;
     /* -webkit-transform: rotate(-45deg); */
     transform: rotate(-45deg);
-    background-color: red;
+    background-color: var(--accent-red-bright);
   }
 }
 
@@ -334,7 +362,6 @@ section {
 main:has(#section-2 .title:hover) #canvas-elem::after {
   opacity: 0;
 }
-
 
 .images {
   position: fixed;
@@ -360,7 +387,9 @@ main:has(#section-2 .title[img-title="tomorrowland"]:hover) .images {
   background-color: #000b25;
 }
 
-main:has(#section-2 .title[img-title="tomorrowland"]:hover) .images #tomorrowland {
+main:has(#section-2 .title[img-title="tomorrowland"]:hover)
+  .images
+  #tomorrowland {
   opacity: 1;
 }
 
@@ -376,7 +405,9 @@ main:has(#section-2 .title[img-title="msi-chicago"]:hover) .images {
   background-color: #000e31;
 }
 
-main:has(#section-2 .title[img-title="msi-chicago"]:hover) .images #msi-chicago {
+main:has(#section-2 .title[img-title="msi-chicago"]:hover)
+  .images
+  #msi-chicago {
   opacity: 1;
 }
 
@@ -438,14 +469,17 @@ main:has(#section-2 .title[img-title="opera"]:hover) .images #opera {
     .first-p {
       transform: translateY(0);
       opacity: 1;
-      transition: opacity .8s cubic-bezier(.215, .61, .355, 1) .1s, transform .8s cubic-bezier(.215, .61, .355, 1) .1s, -webkit-transform .8s cubic-bezier(.215, .61, .355, 1) .1s;
+      transition:
+        opacity 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.1s,
+        transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.1s,
+        -webkit-transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.1s;
       margin-bottom: 35px;
       font-family: "Gilroy-Regular", Helvetica, Arial, sans-serif;
       font-weight: 700;
       font-style: normal;
-      color: rgba(187, 194, 229, .4);
-      font-size: .6428571429rem;
-      letter-spacing: .4em;
+      color: rgba(187, 194, 229, 0.4);
+      font-size: 0.6428571429rem;
+      letter-spacing: 0.4em;
       line-height: 1;
       text-transform: uppercase;
       display: block;
@@ -460,10 +494,10 @@ main:has(#section-2 .title[img-title="opera"]:hover) .images #opera {
     }
 
     .left {
-      font-family: 'GT Sectra Display Medium', Times, Georgia, serif;
+      font-family: "GT Sectra Display Medium", Times, Georgia, serif;
       font-weight: 400;
       font-style: normal;
-      color: #fff;
+      color: var(--text-bright);
       font-size: 3.5714285714rem;
       line-height: 1;
       display: block;
@@ -505,8 +539,8 @@ main:has(#section-2 .title[img-title="opera"]:hover) .images #opera {
         width: 50%;
         padding-right: 25px;
         padding-left: 25px;
-        color: rgba(160, 168, 220, .7);
-        font-family: 'Heebo', Helvetica, Arial, sans-serif;
+        color: rgba(160, 168, 220, 0.7);
+        font-family: "Heebo", Helvetica, Arial, sans-serif;
         font-style: normal;
         font-weight: 400;
         font-size: 14px;
@@ -527,10 +561,10 @@ main:has(#section-2 .title[img-title="opera"]:hover) .images #opera {
       position: absolute;
       top: 260px;
       left: 540px;
-      font-family: 'Heebo', Helvetica, Arial, sans-serif;
+      font-family: "Heebo", Helvetica, Arial, sans-serif;
       font-weight: 500;
       font-style: normal;
-      color: #fff;
+      color: var(--text-bright);
       font-size: 0.9rem;
       line-height: 1;
     }
@@ -544,11 +578,14 @@ main:has(#section-2 .title[img-title="opera"]:hover) .images #opera {
       transform: translateX(-20%) scaleX(1.2);
       transform-origin: 0 50%;
       background-color: #e43333;
-      transition: transform .6s cubic-bezier(.165, .84, .44, 1), visibility 0s 2s, -webkit-transform .6s cubic-bezier(.165, .84, .44, 1);
+      transition:
+        transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1),
+        visibility 0s 2s,
+        -webkit-transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
       font-family: Heebo, Helvetica, Arial, sans-serif;
       font-weight: 500;
       font-style: normal;
-      color: #fff;
+      color: var(--text-bright);
       font-size: 1rem;
       line-height: 1;
     }
@@ -556,7 +593,6 @@ main:has(#section-2 .title[img-title="opera"]:hover) .images #opera {
     .hover-div:hover .red-line {
       transform: scale(1);
     }
-
   }
 
   .fifth-line {
@@ -577,8 +613,6 @@ main:has(#section-2 .title[img-title="opera"]:hover) .images #opera {
   }
 }
 
-
-
 /* =========================
    SECTION 5 – FOOTER
    ========================= */
@@ -587,352 +621,352 @@ main:has(#section-2 .title[img-title="opera"]:hover) .images #opera {
    BASE / GLOBAL
 ================================ */
 
-*, :before, :after {
-    box-sizing: inherit;
+*,
+:before,
+:after {
+  box-sizing: inherit;
 }
 
 svg:not(:root) {
-    overflow-clip-margin: content-box;
-    overflow: hidden;
+  overflow-clip-margin: content-box;
+  overflow: hidden;
 }
 
 li {
-    display: list-item;
-    unicode-bidi: isolate;
+  display: list-item;
+  unicode-bidi: isolate;
 }
 
 html:not(.user-is-tabbing) a,
 html:not(.user-is-tabbing) button {
-    outline: none;
+  outline: none;
 }
-
 
 /* ================================
    FOOTER LAYOUT WRAPPER
 ================================ */
 
 .site-footer {
-    height: auto;
-    width: 100%;
-    z-index: 900;
-    margin: 0 auto;
-    position: relative;
-    background: linear-gradient(
-        180deg,
-        rgba(19, 20, 25, 0) 0%,
-        #131419 15%
-    );
+  height: auto;
+  width: 100%;
+  z-index: 900;
+  margin: 0 auto;
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(19, 20, 25, 0) 0%,
+    var(--footer-bg) 15%
+  );
 }
 
 .center {
-    max-width: 1024px;
-    margin-left: auto;
-    margin-right: auto;
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
 }
-
 
 /* ================================
    FOOTER TOP / BOTTOM LAYOUT
 ================================ */
 
 .site-footer-bottom {
-    padding-top: 23px;
-    padding-bottom: 25px;
-    border-top: 1px solid rgba(182, 193, 250, .1);
+  padding-top: 23px;
+  padding-bottom: 25px;
+  border-top: 1px solid rgba(182, 193, 250, 0.1);
 }
 
 @media (min-width: 48em) {
-    .site-footer-top {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-    }
+  .site-footer-top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
 }
 
 @media (min-width: 50.9375em) {
-    .site-footer-top {
-        padding-bottom: 85px;
-    }
+  .site-footer-top {
+    padding-bottom: 85px;
+  }
 
-    .site-footer-bottom {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+  .site-footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
-
 
 /* ================================
    FOOTER BLOCKS
 ================================ */
 
 .site-footer-block {
-    width: 18%;
+  width: 18%;
 }
 
 .site-footer-block--social {
-    margin-left: 100px;
+  margin-left: 100px;
 }
-
 
 /* ================================
    FOOTER TITLES
 ================================ */
 
 .site-footer-title {
-    text-align: right;
+  text-align: right;
 }
 
 .site-footer-title .baseline {
-    display: block;
-    width: 45px;
-    fill: #fff;
-    margin-left: auto;
+  display: block;
+  width: 45px;
+  fill: var(--text-bright);
+  margin-left: auto;
 }
 
 @media (min-width: 50.9375em) {
-    .site-footer-title {
-        text-align: right;
-    }
+  .site-footer-title {
+    text-align: right;
+  }
 
-    .site-footer-title .baseline {
-        margin-left: auto;
-    }
+  .site-footer-title .baseline {
+    margin-left: auto;
+  }
 }
-
 
 /* ================================
    FOOTER CONTACT
 ================================ */
 
 .site-footer-contact {
-    font-family: Heebo, Helvetica, Arial, sans-serif;
-    font-weight: 500;
-    color: rgba(160, 168, 220, .7);
-    font-size: 11px;
-    line-height: 1;
+  font-family: Heebo, Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1;
 }
 
 .site-footer-contact a {
-    color: #fff;
-    text-decoration: none;
+  color: var(--text-bright);
+  text-decoration: none;
 }
 
 .site-footer-contact a:before {
-    margin: 0 15px;
-    height: 1px;
-    width: 28px;
-    content: "";
-    display: inline-block;
-    background-color: rgba(187, 194, 229, .3);
-    vertical-align: middle;
+  margin: 0 15px;
+  height: 1px;
+  width: 28px;
+  content: "";
+  display: inline-block;
+  background-color: rgba(187, 194, 229, 0.3);
+  vertical-align: middle;
 }
-
 
 /* ================================
    FOOTER NEWSLETTER
 ================================ */
 
 .site-footer-newsletter {
-    font-family: Heebo, Helvetica, Arial, sans-serif;
-    font-weight: 500;
-    color: rgba(160, 168, 220, .7);
-    font-size: 12px;
-    line-height: 1;
+  font-family: Heebo, Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  color: rgba(160, 168, 220, 0.7);
+  font-size: 12px;
+  line-height: 1;
 }
 
 .site-footer-newsletter a {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 .site-footer-newsletter .svg {
-    width: 18px;
-    height: 11px;
-    margin-top: -2px;
-    margin-right: 15px;
-    transition: fill .4s cubic-bezier(.165, .84, .44, 1);
-    opacity: 0.1;
-    vertical-align: middle;
+  width: 18px;
+  height: 11px;
+  margin-top: -2px;
+  margin-right: 15px;
+  transition: fill 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  opacity: 0.1;
+  vertical-align: middle;
 }
 
 .svg {
-    display: inline-block;
+  display: inline-block;
 }
-
 
 /* ================================
    FOOTER ADDRESS
 ================================ */
 
 .site-footer-block--address b {
-    font-family: Gilroy, Helvetica, Arial, sans-serif;
-    font-weight: 500;
-    color: #ff4940;
-    font-size: .8571428571rem;
-    line-height: 1;
+  font-family: Gilroy, Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  color: #ff4940;
+  font-size: 0.8571428571rem;
+  line-height: 1;
 }
-
 
 /* ================================
    SOCIAL LINKS
 ================================ */
 
 .site-footer-block--social ul {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 30px;
-    margin-right: -10px;
-    color: rgba(187, 194, 229, .3);
-    font-size: 11px;
-    line-height: 1;
-    list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+  margin-right: -10px;
+  color: rgba(187, 194, 229, 0.3);
+  font-size: 11px;
+  line-height: 1;
+  list-style: none;
 }
 
 .site-footer-block--social li {
-    font-family: Heebo, Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    color: rgba(160, 168, 220, .7);
-    font-size: 11px;
-    line-height: 1;
-    position: relative;
+  font-family: Heebo, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  color: rgba(160, 168, 220, 0.7);
+  font-size: 11px;
+  line-height: 1;
+  position: relative;
 }
 
 .site-footer-block--social li + li:before {
-    position: absolute;
-    top: 50%;
-    left: -1px;
-    content: "/";
-    transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  left: -1px;
+  content: "/";
+  transform: translateY(-50%);
 }
 
 .site-footer-block--social a {
-    position: relative;
-    padding: 6px 10px;
-    display: block;
-    color: inherit;
-    text-decoration: none;
+  position: relative;
+  padding: 6px 10px;
+  display: block;
+  color: inherit;
+  text-decoration: none;
 }
-
 
 /* ================================
    LANGUAGE SELECTOR
 ================================ */
 
 .site-footer-languages {
-    font-family: Gilroy, Helvetica, Arial, sans-serif;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    font-size: 11px;
-    line-height: 1;
-    color: rgba(160, 168, 220, .7);
+  font-family: Gilroy, Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  line-height: 1;
+  color: rgba(160, 168, 220, 0.7);
 }
 
 .site-footer-languages:before {
-    margin: 0 20px;
-    height: 1px;
-    width: 30px;
-    content: "";
-    border-top: 1px solid rgba(182, 193, 250, .1);
+  margin: 0 20px;
+  height: 1px;
+  width: 30px;
+  content: "";
+  border-top: 1px solid rgba(182, 193, 250, 0.1);
 }
 
 .site-footer-languages ul {
-    list-style: none;
-    margin-left: 4px;
-    display: flex;
-    flex-direction: column-reverse;
-    max-height: 25px;
-    width: 94px;
-    overflow: hidden;
+  list-style: none;
+  margin-left: 4px;
+  display: flex;
+  flex-direction: column-reverse;
+  max-height: 25px;
+  width: 94px;
+  overflow: hidden;
 }
 
 .site-footer-languages li:first-child a:before {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .site-footer-languages a {
-    font-family: Gilroy, Helvetica, Arial, sans-serif;
-    font-weight: 700;
-    padding: 7px 8px;
-    position: relative;
-    display: block;
-    width: 100%;
-    color: #fff;
-    text-decoration: none;
-    pointer-events: none;
-    background-color: #131419;
-    text-align: left;
-    border-radius: 3px;
-    transition: background-color .2s cubic-bezier(.165, .84, .44, 1);
+  font-family: Gilroy, Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  padding: 7px 8px;
+  position: relative;
+  display: block;
+  width: 100%;
+  color: var(--text-bright);
+  text-decoration: none;
+  pointer-events: none;
+  background-color: var(--footer-bg);
+  text-align: left;
+  border-radius: 3px;
+  transition: background-color 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .site-footer-languages a:before {
-    position: absolute;
-    inset: 0;
-    content: "";
-    border: 1px solid transparent;
-    opacity: .2;
-    border-radius: 3px;
+  position: absolute;
+  inset: 0;
+  content: "";
+  border: 1px solid transparent;
+  opacity: 0.2;
+  border-radius: 3px;
 }
 
 .site-footer-languages img {
-    margin-right: 3px;
+  margin-right: 3px;
 }
 
 /* Caret icon inside language selector */
 .site-footer-languages .svg-caret-right img {
-    position: absolute;
-    top: 40%;
-    right: 20.5px;
-    width: 7px;
-    height: 5px;
-    transition: opacity .2s cubic-bezier(.165, .84, .44, 1);
+  position: absolute;
+  top: 40%;
+  right: 20.5px;
+  width: 7px;
+  height: 5px;
+  transition: opacity 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 /* Hover / focus behavior */
 .site-footer-languages:focus-within li:not(.is-active) a,
 .site-footer-languages:focus li:not(.is-active) a,
 .site-footer-languages:hover li:not(.is-active) a {
-    pointer-events: all;
+  pointer-events: all;
 }
-
 
 /* ================================
    RIGHT SIDE GROUPING
 ================================ */
 
 @media (min-width: 50.9375em) {
-    .site-footer-right {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+  .site-footer-right {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
-
 
 /* ================================
    SCROLL APPEAR ANIMATIONS
 ================================ */
 
 html:not(.disable-motion) .appear-fade-up {
-    transform: translateY(50px);
-    opacity: 0;
-    transition:
-        opacity .8s cubic-bezier(.215, .61, .355, 1) .1s,
-        transform .8s cubic-bezier(.215, .61, .355, 1) .1s;
+  transform: translateY(50px);
+  opacity: 0;
+  transition:
+    opacity 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.1s,
+    transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.1s;
 }
 
 html:not(.disable-motion) .in-view .appear-fade-up {
-    transform: translateY(0);
-    opacity: 1;
+  transform: translateY(0);
+  opacity: 1;
 }
 
 /* Delay modifiers */
-html:not(.disable-motion) .appear-delay--1 { transition-delay: .1s; }
-html:not(.disable-motion) .appear-delay--2 { transition-delay: .2s; }
-html:not(.disable-motion) .appear-delay--3 { transition-delay: .3s; }
-html:not(.disable-motion) .appear-delay--4 { transition-delay: .4s; }
-html:not(.disable-motion) .appear-delay--5 { transition-delay: .5s; }
-
+html:not(.disable-motion) .appear-delay--1 {
+  transition-delay: 0.1s;
+}
+html:not(.disable-motion) .appear-delay--2 {
+  transition-delay: 0.2s;
+}
+html:not(.disable-motion) .appear-delay--3 {
+  transition-delay: 0.3s;
+}
+html:not(.disable-motion) .appear-delay--4 {
+  transition-delay: 0.4s;
+}
+html:not(.disable-motion) .appear-delay--5 {
+  transition-delay: 0.5s;
+}
